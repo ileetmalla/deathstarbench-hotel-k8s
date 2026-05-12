@@ -1,0 +1,6 @@
+geo-pv              1Gi        RWO            Retain           Bound    hotel-res/geo-pvc              geo-storage              <unset>                          48m
+profile-pv          1Gi        RWO            Retain           Bound    hotel-res/profile-pvc          profile-storage          <unset>                          48m
+rate-pv             1Gi        RWO            Retain           Bound    hotel-res/rate-pvc             rate-storage             <unset>                          48m
+recommendation-pv   1Gi        RWO            Retain           Bound    hotel-res/recommendation-pvc   recommendation-storage   <unset>                          48m
+reservation-pv      1Gi        RWO            Retain           Bound    hotel-res/reservation-pvc      reservation-storage      <unset>                          48m
+user-pv             1Gi        RWO            Retain           Bound    hotel-res/user-pvc             user-storage             <unset>                          48m

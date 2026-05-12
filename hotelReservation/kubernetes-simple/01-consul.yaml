@@ -26,6 +26,15 @@ spec:
       labels:
         io.kompose.service: consul
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: im-hp-10
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
       containers:
         - image: hashicorp/consul:latest
           name: consul

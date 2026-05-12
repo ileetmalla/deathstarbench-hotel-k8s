@@ -27,6 +27,7 @@ groups = [
 ]
 
 pinned_deployments = {
+    "consul",
     "mongodb-geo",
     "mongodb-profile",
     "mongodb-rate",

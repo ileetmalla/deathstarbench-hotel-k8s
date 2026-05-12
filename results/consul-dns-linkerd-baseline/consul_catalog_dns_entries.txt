@@ -1,0 +1,42 @@
+===== srv-geo =====
+        "Address": "127.0.0.1",
+        "ServiceName": "srv-geo",
+        "ServiceAddress": "geo.hotel-res.svc.cluster.local",
+        "ServicePort": 8083,
+
+===== srv-profile =====
+        "Address": "127.0.0.1",
+        "ServiceName": "srv-profile",
+        "ServiceAddress": "profile.hotel-res.svc.cluster.local",
+        "ServicePort": 8081,
+
+===== srv-rate =====
+        "Address": "127.0.0.1",
+        "ServiceName": "srv-rate",
+        "ServiceAddress": "rate.hotel-res.svc.cluster.local",
+        "ServicePort": 8084,
+
+===== srv-recommendation =====
+        "Address": "127.0.0.1",
+        "ServiceName": "srv-recommendation",
+        "ServiceAddress": "recommendation.hotel-res.svc.cluster.local",
+        "ServicePort": 8085,
+
+===== srv-reservation =====
+        "Address": "127.0.0.1",
+        "ServiceName": "srv-reservation",
+        "ServiceAddress": "reservation.hotel-res.svc.cluster.local",
+        "ServicePort": 8087,
+
+===== srv-search =====
+        "Address": "127.0.0.1",
+        "ServiceName": "srv-search",
+        "ServiceAddress": "search.hotel-res.svc.cluster.local",
+        "ServicePort": 8082,
+
+===== srv-user =====
+        "Address": "127.0.0.1",
+        "ServiceName": "srv-user",
+        "ServiceAddress": "user.hotel-res.svc.cluster.local",
+        "ServicePort": 8086,
+

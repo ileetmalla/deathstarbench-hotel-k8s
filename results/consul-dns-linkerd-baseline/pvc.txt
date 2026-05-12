@@ -1,0 +1,7 @@
+NAME                 STATUS   VOLUME              CAPACITY   ACCESS MODES   STORAGECLASS             VOLUMEATTRIBUTESCLASS   AGE
+geo-pvc              Bound    geo-pv              1Gi        RWO            geo-storage              <unset>                 48m
+profile-pvc          Bound    profile-pv          1Gi        RWO            profile-storage          <unset>                 48m
+rate-pvc             Bound    rate-pv             1Gi        RWO            rate-storage             <unset>                 48m
+recommendation-pvc   Bound    recommendation-pv   1Gi        RWO            recommendation-storage   <unset>                 48m
+reservation-pvc      Bound    reservation-pv      1Gi        RWO            reservation-storage      <unset>                 48m
+user-pvc             Bound    user-pv             1Gi        RWO            user-storage             <unset>                 48m
