@@ -16,7 +16,6 @@ else:
 
 groups = [
     ("01-consul.yaml", "consul"),
-    ("02-jaeger.yaml", "jaeger"),
     ("10-frontend.yaml", "frontend"),
     ("20-geo.yaml", "geo"),
     ("30-profile.yaml", "profile"),
@@ -202,6 +201,8 @@ def transform(doc):
 kind: Namespace
 metadata:
   name: hotel-res
+  annotations:
+    linkerd.io/inject: enabled
 """)
 
 # Service group files
