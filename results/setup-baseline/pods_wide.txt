@@ -1,0 +1,20 @@
+NAME                                    READY   STATUS    RESTARTS      AGE   IP               NODE       NOMINATED NODE   READINESS GATES
+consul-56f5cf4f78-vzphh                 1/1     Running   0             32m   172.16.232.111   im-hp-06   <none>           <none>
+frontend-59778cd4dc-jxrc8               1/1     Running   0             32m   172.16.202.91    im-hp-02   <none>           <none>
+geo-f46b4946-8rpb8                      1/1     Running   0             31m   172.16.139.172   im-hp-04   <none>           <none>
+jaeger-65f6b96558-7pm7f                 1/1     Running   0             32m   172.16.232.117   im-hp-06   <none>           <none>
+memcached-profile-575469b55c-j2tjf      1/1     Running   0             32m   172.16.186.56    im-hp-10   <none>           <none>
+memcached-rate-78d94bdcff-x7kc5         1/1     Running   0             32m   172.16.186.57    im-hp-10   <none>           <none>
+memcached-reserve-5df4dbf7d5-5nbc4      1/1     Running   0             32m   172.16.186.48    im-hp-10   <none>           <none>
+mongodb-geo-7696954698-2sqbh            1/1     Running   0             32m   172.16.186.8     im-hp-10   <none>           <none>
+mongodb-profile-cc7c4d6d4-mvqtd         1/1     Running   0             32m   172.16.186.30    im-hp-10   <none>           <none>
+mongodb-rate-7b75f5ccff-k55bv           1/1     Running   0             32m   172.16.186.55    im-hp-10   <none>           <none>
+mongodb-recommendation-c97c66f8-j5wbp   1/1     Running   0             32m   172.16.186.53    im-hp-10   <none>           <none>
+mongodb-reservation-bb74b7f8d-r2bw4     1/1     Running   0             32m   172.16.186.15    im-hp-10   <none>           <none>
+mongodb-user-7665996fd-lpqgg            1/1     Running   0             32m   172.16.186.17    im-hp-10   <none>           <none>
+profile-75f897ddd4-lckph                1/1     Running   0             31m   172.16.232.127   im-hp-06   <none>           <none>
+rate-9446c9f66-nc6x9                    1/1     Running   0             31m   172.16.202.108   im-hp-02   <none>           <none>
+recommendation-5c8c65d87b-tcv48         1/1     Running   0             31m   172.16.139.187   im-hp-04   <none>           <none>
+reservation-74db5cfd7f-5dk7s            1/1     Running   0             31m   172.16.202.68    im-hp-02   <none>           <none>
+search-69d584c44d-pmblg                 1/1     Running   1 (31m ago)   32m   172.16.202.95    im-hp-02   <none>           <none>
+user-7b944bd865-4rgx4                   1/1     Running   0             31m   172.16.232.96    im-hp-06   <none>           <none>
