@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consul-k8s-dns-enforcer
+  namespace: hotel-res
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consul-k8s-dns-enforcer
+  template:
+    metadata:
+      labels:
+        app: consul-k8s-dns-enforcer
+      annotations:
+        linkerd.io/inject: disabled
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: enforcer
+          image: python:3.11-alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: CONSUL_HTTP_ADDR
+              value: "http://consul.hotel-res.svc.cluster.local:8500"
+            - name: INTERVAL_SECONDS
+              value: "10"
+          command:
+            - python3
+            - -c
+            - |
+              import json
+              import os
+              import time
+              import urllib.request
+              import urllib.error
+
+              CONSUL = os.environ.get("CONSUL_HTTP_ADDR", "http://consul:8500").rstrip("/")
+              INTERVAL = int(os.environ.get("INTERVAL_SECONDS", "10"))
+
+              SERVICES = {
+                  "srv-geo": ("geo.hotel-res.svc.cluster.local", 8083),
+                  "srv-profile": ("profile.hotel-res.svc.cluster.local", 8081),
+                  "srv-rate": ("rate.hotel-res.svc.cluster.local", 8084),
+                  "srv-recommendation": ("recommendation.hotel-res.svc.cluster.local", 8085),
+                  "srv-reservation": ("reservation.hotel-res.svc.cluster.local", 8087),
+                  "srv-search": ("search.hotel-res.svc.cluster.local", 8082),
+                  "srv-user": ("user.hotel-res.svc.cluster.local", 8086),
+              }
+
+              def request(method, path, payload=None):
+                  data = None
+                  headers = {}
+
+                  if payload is not None:
+                      data = json.dumps(payload).encode("utf-8")
+                      headers["Content-Type"] = "application/json"
+
+                  req = urllib.request.Request(
+                      CONSUL + path,
+                      data=data,
+                      headers=headers,
+                      method=method,
+                  )
+
+                  with urllib.request.urlopen(req, timeout=5) as resp:
+                      body = resp.read().decode("utf-8")
+                      if not body:
+                          return None
+                      return json.loads(body)
+
+              def get_service_entries(service_name):
+                  try:
+                      return request("GET", f"/v1/catalog/service/{service_name}") or []
+                  except Exception as e:
+                      print(f"[WARN] could not read {service_name}: {e}", flush=True)
+                      return []
+
+              def deregister_catalog_entry(node, service_id):
+                  payload = {
+                      "Node": node,
+                      "ServiceID": service_id,
+                  }
+                  request("PUT", "/v1/catalog/deregister", payload)
+
+              def register_dns_service(service_name, address, port):
+                  payload = {
+                      "ID": f"{service_name}-k8s-dns",
+                      "Name": service_name,
+                      "Address": address,
+                      "Port": port,
+                  }
+                  request("PUT", "/v1/agent/service/register", payload)
+
+              def enforce_once():
+                  for service_name, (dns_name, port) in SERVICES.items():
+                      entries = get_service_entries(service_name)
+
+                      for entry in entries:
+                          service_id = entry.get("ServiceID")
+                          node = entry.get("Node")
+                          current_address = entry.get("ServiceAddress", "")
+
+                          if current_address != dns_name and node and service_id:
+                              print(
+                                  f"[INFO] deregistering {service_name} entry "
+                                  f"id={service_id} address={current_address}",
+                                  flush=True,
+                              )
+                              deregister_catalog_entry(node, service_id)
+
+                      print(
+                          f"[INFO] registering {service_name} -> {dns_name}:{port}",
+                          flush=True,
+                      )
+                      register_dns_service(service_name, dns_name, port)
+
+              while True:
+                  try:
+                      enforce_once()
+                  except Exception as e:
+                      print(f"[ERROR] enforcement failed: {e}", flush=True)
+
+                  time.sleep(INTERVAL)
