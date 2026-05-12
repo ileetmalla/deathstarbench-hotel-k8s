@@ -1,29 +1,56 @@
-# DeathStarBench
+# DeathStarBench Hotel Reservation Kubernetes Deployment
 
-Open-source benchmark suite for cloud microservices. DeathStarBench includes five end-to-end services, four for cloud systems, and one for cloud-edge systems running on drone swarms. 
+This repository contains a simplified Kubernetes deployment of the DeathStarBench Hotel Reservation benchmark.
 
-## End-to-end Services <img src="microservices_bundle4.png" alt="suite-icon" width="40"/>
+The deployment is adapted for a Kubernetes cluster where:
 
-* Social Network (released)
-* Media Service (released)
-* Hotel Reservation (released)
-* E-commerce site (in progress)
-* Banking System (in progress)
-* Drone coordination system (in progress)
+- MongoDB services run on im-hp-10
+- Memcached services run on im-hp-10
+- PersistentVolumes are pinned to im-hp-10
+- Application services are left to the default Kubernetes scheduler
 
-## License & Copyright 
+## Main manifest folder
 
-DeathStarBench is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2.
+The main deployable manifests are in:
 
-DeathStarBench is being developed by the [SAIL group](http://sail.ece.cornell.edu/) at Cornell University. 
+hotelReservation/kubernetes-simple/
 
-## Publications
+## Deploy
 
-More details on the applications and a characterization of their behavior can be found at ["An Open-Source Benchmark Suite for Microservices and Their Hardware-Software Implications for Cloud and Edge Systems"](http://www.csl.cornell.edu/~delimitrou/papers/2019.asplos.microservices.pdf), Y. Gan et al., ASPLOS 2019. 
+cd ~/DeathStarBench
+kubectl apply -f hotelReservation/kubernetes-simple/
 
-If you use this benchmark suite in your work, we ask that you please cite the paper above. 
+## Verify pods
 
+kubectl get pods -n hotel-res -o wide
 
-## Beta-testing
+## Verify PVC/PV binding
 
-If you are interested in joining the beta-testing group for DeathStarBench, send us an email at: <microservices-bench-L@list.cornell.edu>
+kubectl get pvc -n hotel-res
+kubectl get pv | egrep 'geo|profile|rate|recommendation|reservation|user'
+
+## Verify DB and cache placement
+
+kubectl get pods -n hotel-res -o wide | egrep 'mongodb|memcached'
+
+Expected: all MongoDB and memcached pods should run on im-hp-10.
+
+## Port forward frontend
+
+kubectl -n hotel-res port-forward --address 0.0.0.0 svc/frontend 5000:5000
+
+## Smoke test
+
+curl -I http://127.0.0.1:5000
+
+curl -s "http://127.0.0.1:5000/hotels?inDate=2015-04-09&outDate=2015-04-10&lat=37.7749&lon=-122.4194" | head
+
+## Clean deployment
+
+kubectl delete namespace hotel-res --ignore-not-found --wait=true
+
+kubectl delete pv geo-pv profile-pv rate-pv recommendation-pv reservation-pv user-pv --ignore-not-found
+
+## Rebuild simple manifests
+
+python3 scripts/build_hotel_simple_manifests.py
