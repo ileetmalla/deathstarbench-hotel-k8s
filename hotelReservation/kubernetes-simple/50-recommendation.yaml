@@ -109,7 +109,7 @@ spec:
       containers:
         - command:
             - /go/bin/recommendation
-          image: deathstarbench/hotel-reservation:latest
+          image: malla8848/hotel-reservation:k8sdns-v1
           name: hotel-reserv-recommendation
           ports:
             - containerPort: 8085

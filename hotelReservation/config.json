@@ -23,6 +23,13 @@
   "SearchPort": "8082",
   "UserPort": "8086",
   "UserMongoAddress": "mongodb-user:27017",
-  "KnativeDomainName": ""
+  "KnativeDomainName": "",
+  "FrontendIP": "frontend.hotel-res.svc.cluster.local",
+  "GeoIP": "geo.hotel-res.svc.cluster.local",
+  "ProfileIP": "profile.hotel-res.svc.cluster.local",
+  "RateIP": "rate.hotel-res.svc.cluster.local",
+  "RecommendIP": "recommendation.hotel-res.svc.cluster.local",
+  "ReserveIP": "reservation.hotel-res.svc.cluster.local",
+  "SearchIP": "search.hotel-res.svc.cluster.local",
+  "UserIP": "user.hotel-res.svc.cluster.local"
 }
-
